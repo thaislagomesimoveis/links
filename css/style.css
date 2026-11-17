@@ -1,86 +1,505 @@
-.page-image {
-    object-position: center;
+/* Thaisla Gomes — página de links
+   Paleta e tipografia tiradas da marca: azul-noite + prata, Montserrat. */
 
+:root {
+    --noite: #02071A;          /* fundo da marca */
+    --noite-elevada: #0B1430;  /* hover e fundo de imagens carregando */
+    --linha: #1C2643;          /* divisórias */
+    --prata: #CCCCCC;          /* cor do logo */
+    --nevoa: #8E96AA;          /* texto secundário */
+    --cal: #F1F2F4;            /* texto principal e botão */
+
+    --fonte: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --margem: 20px;
 }
 
-.display-image {
-    border-radius: 50%;
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
 }
 
-.page-title {
-    font-size: 18px;
-    font-weight: 700;
+html {
+    background: var(--noite);
+    color-scheme: dark;
+    -webkit-text-size-adjust: 100%;
 }
 
-.page-bioline {
-    font-size: 16px;
+body {
+    margin: 0;
+    min-height: 100vh;
+    min-height: 100svh;
+    background: var(--noite);
+    color: var(--cal);
+    font-family: var(--fonte);
+    font-size: 1rem;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.traco {
+    fill: var(--prata);
+}
+
+/* ---------- Estrutura ---------- */
+
+.pagina {
+    width: min(100%, 440px);
+    margin-inline: auto;
+    padding: 24px var(--margem) 40px;
+}
+
+/* ---------- Capa: moldura + foto + assinatura ---------- */
+
+.capa-foto,
+.capa-assinatura {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.capa-assinatura {
+    margin-top: 24px;
+}
+
+.porta {
+    fill: var(--noite);
+    transform-box: fill-box;
+    transform: scaleX(0);
+}
+
+.porta-esquerda {
+    transform-origin: 0 50%;
+}
+
+.porta-direita {
+    transform-origin: 100% 50%;
+}
+
+.monograma {
+    opacity: 0;
+}
+
+.capa-foto image {
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+}
+
+/* Ao abrir a página: o monograma "tg" sai e a moldura se abre para a foto. */
+@media (prefers-reduced-motion: no-preference) {
+    .monograma {
+        animation: monograma-sai 600ms cubic-bezier(0.4, 0, 0.2, 1) 450ms backwards;
+    }
+
+    .porta {
+        animation: porta-abre 1100ms cubic-bezier(0.65, 0, 0.25, 1) 750ms backwards;
+    }
+
+    .capa-foto image {
+        animation: foto-assenta 1600ms cubic-bezier(0.2, 0.7, 0.2, 1) 750ms backwards;
+    }
+}
+
+@keyframes monograma-sai {
+    from { opacity: 1; }
+}
+
+@keyframes porta-abre {
+    from { transform: scaleX(1); }
+}
+
+@keyframes foto-assenta {
+    from { transform: scale(1.08); }
+}
+
+/* ---------- Bio (a mesma do Instagram) ---------- */
+
+.conteudo {
+    margin-top: 36px;
+}
+
+.bio {
+    margin: 0;
+    text-wrap: balance;
+}
+
+.bio-titulo {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+}
+
+.bio-linha {
+    display: block;
+    margin-top: 6px;
+    color: var(--nevoa);
+}
+
+/* ---------- WhatsApp (ação principal) ---------- */
+
+.whatsapp {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-height: 76px;
+    margin-top: 28px;
+    padding: 14px 20px;
+    background: var(--cal);
+    color: var(--noite);
+    text-decoration: none;
+    transition: background-color 150ms ease;
+}
+
+.whatsapp:hover {
+    background: #FFFFFF;
+}
+
+.whatsapp:active {
+    background: var(--prata);
+}
+
+.whatsapp .icone {
+    flex: none;
+    width: 28px;
+    height: 28px;
+    fill: currentColor;
+}
+
+.whatsapp-texto {
+    display: flex;
+    flex-direction: column;
+}
+
+.whatsapp-acao {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.whatsapp-numero {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #3A4157;
+}
+
+/* ---------- Canais ---------- */
+
+.canais {
+    margin: 24px 0 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--linha);
+}
+
+.canal {
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr) 18px;
+    align-items: center;
+    column-gap: 16px;
+    min-height: 68px;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--linha);
+    color: var(--cal);
+    text-decoration: none;
+    transition: background-color 150ms ease;
+}
+
+.canal .icone {
+    justify-self: center;
+    width: 22px;
+    height: 22px;
+    fill: var(--prata);
+}
+
+.canal-texto {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.canal-nome {
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.canal-detalhe {
+    overflow: hidden;
+    color: var(--nevoa);
+    font-size: 0.875rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.canal-detalhe:empty {
+    display: none;
+}
+
+.seta {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: var(--nevoa);
+    stroke-width: 1.75;
+    stroke-linecap: square;
+    transition: transform 150ms ease, stroke 150ms ease;
+}
+
+.canal:hover {
+    background: var(--noite-elevada);
+}
+
+.canal:hover .seta {
+    stroke: var(--cal);
+    transform: translate(2px, -2px);
+}
+
+/* Canal sem link (href="") fica fora da página até ser preenchido. */
+.canais li:has(> .canal[href=""]),
+.canal[href=""] {
+    display: none;
+}
+
+/* ---------- Vídeos (formato vertical, como os Reels) ---------- */
+
+.videos {
+    margin-top: 48px;
+}
+
+.videos-topo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 4px 16px;
+}
+
+.videos h2 {
+    margin: 0;
+    font-size: 1.0625rem;
     font-weight: 600;
 }
 
-.page-item-title {
-    font-size: 16px;
-    font-weight: 700;
+.videos-todos {
+    color: var(--nevoa);
+    font-size: 0.875rem;
+    text-decoration: underline;
+    text-decoration-color: var(--linha);
+    text-underline-offset: 4px;
+    transition: color 150ms ease;
 }
 
-.page-item-each {
-    color: #1F365C;
-    font-family: 'Inter', sans-serif;
-    font-size: 16px;
-    font-weight: 500;
-    text-transform: none;
-    border-radius: 8px;
-
-    min-height: 60px;
+.videos-todos:hover {
+    color: var(--cal);
+    text-decoration-color: currentColor;
 }
 
-.page-item-wrap {
-    margin: 16px 0;
+/* No celular: faixa que desliza para o lado, sangrando até a borda da tela. */
+.videos-lista {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 42%;
+    gap: 12px;
+    margin: 16px calc(-1 * var(--margem)) 0;
+    padding: 0 var(--margem) 4px;
+    list-style: none;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--margem);
+    scrollbar-width: none;
 }
 
-.page-item-wrap:last-child {
-    margin-bottom: 0;
+.videos-lista::-webkit-scrollbar {
+    display: none;
 }
 
-.page-item-wrap:hover {
-    transform: translate3d(0px, 0px, 0px) scale(1.015);
+.videos-lista li {
+    scroll-snap-align: start;
 }
 
-.page-item-wrap {
+.video {
+    position: relative; /* mantém o texto para leitor de tela dentro da faixa rolável */
+    display: block;
+    color: var(--cal);
+    text-decoration: none;
+}
+
+.video-capa {
+    position: relative;
+    display: block;
+    aspect-ratio: 9 / 16;
+    overflow: hidden;
+    background: var(--noite-elevada);
+}
+
+.video-capa img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 300ms ease;
+}
+
+.video:hover .video-capa img {
+    transform: scale(1.04);
+}
+
+.video-play {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    fill: #FFFFFF;
+    filter: drop-shadow(0 1px 3px rgba(2, 7, 26, 0.6));
+}
+
+.video-legenda {
+    display: block;
+    margin-top: 10px;
+    font-size: 0.8125rem;
+    line-height: 1.35;
+}
+
+/* ---------- Rodapé ---------- */
+
+.rodape {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    margin-top: 56px;
+    color: var(--nevoa);
+    font-size: 0.875rem;
+    text-align: center;
+}
+
+.rodape p {
+    margin: 0;
+}
+
+.rodape-assinatura {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.rodape-creditos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px 24px;
+    font-size: 0.8125rem;
+}
+
+.rodape-creditos a {
+    color: var(--cal);
+    text-decoration: underline;
+    text-decoration-color: var(--linha);
+    text-underline-offset: 4px;
+    transition: text-decoration-color 150ms ease;
+}
+
+.rodape-creditos a:hover {
+    text-decoration-color: currentColor;
+}
+
+.rodape-marca {
+    flex: none;
+    width: 22px;
+    height: auto;
+}
+
+/* ---------- Foco do teclado ---------- */
+
+a:focus-visible {
+    outline: 2px solid var(--cal);
+    outline-offset: 4px;
+}
+
+.canal:focus-visible {
+    outline-offset: -2px;
+}
+
+/* ---------- Celulares estreitos (até 359px) ---------- */
+
+@media (max-width: 359px) {
+    :root {
+        --margem: 16px;
     }
 
-.page-item {
-    border: 0 solid #FFFFFF;
-    background: #FFFFFF;
-    border-radius: 8px;
-    box-shadow: 0 6px 14px -6px rgba(24, 39, 75, 0.12), 0 10px 32px -4px rgba(24, 39, 75, 0.1), inset 0 0 2px 1px rgba(24, 39, 75, 0.05);
+    .whatsapp,
+    .canal {
+        padding-inline: 12px;
+    }
+
+    .whatsapp {
+        gap: 12px;
+    }
+
+    .canal {
+        column-gap: 12px;
+    }
+
+    .videos-lista {
+        grid-auto-columns: 46%;
+    }
 }
 
-.embed-wrap iframe,
-.embed-wrap-inside {
-    border-radius: 8px;
+/* ---------- Telas largas: capa fixa à esquerda, conteúdo à direita ---------- */
+
+@media (min-width: 880px) {
+    .pagina {
+        display: grid;
+        grid-template-columns: minmax(0, 46fr) minmax(0, 52fr);
+        grid-template-rows: auto auto;
+        align-items: start;
+        column-gap: clamp(56px, 7vw, 104px);
+        width: min(100%, 1120px);
+        padding: 56px 48px 48px;
+    }
+
+    .capa {
+        grid-row: 1;
+    }
+
+    .conteudo {
+        margin-top: 0;
+    }
+
+    /* Rodapé ocupa as duas colunas para ficar no centro da página. */
+    .rodape {
+        grid-column: 1 / -1;
+    }
+
+    .videos-lista {
+        grid-auto-flow: row;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        margin-inline: 0;
+        padding: 0;
+        overflow: visible;
+    }
 }
 
-.link-each-image,
-.page-item-wrap {
-    border-radius: 8px;
-}
-
-.page-text-font {
-    font-family: 'Inter', sans-serif;
-    text-transform: none;
-
-}
-
-.page-text-color {
-    color: #1F365C;
-}
-
-.social-icon-fill circle,
-.social-icon-fill path,
-.social-icon-fill rect {
-    fill: #1F365C;
-}
-
-.page-overlay-btn {
-    border: 2px solid #1F365C;
+/* Capa acompanha a rolagem quando a tela tem altura para ela. */
+@media (min-width: 880px) and (min-height: 760px) {
+    .capa {
+        position: sticky;
+        top: 56px;
+    }
 }
